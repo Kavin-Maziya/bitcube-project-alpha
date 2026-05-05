@@ -9,3 +9,6 @@
 
 #Ignore A folder named node_modules/
 node_modules/
+
+#Force Git to track empty assets/ folder
+!assets/
