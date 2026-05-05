@@ -1,0 +1,11 @@
+#Ignore Any file ending in .log:
+*.log
+
+#Ignore A file named .env (which usually holds secret API keys)
+.env
+
+#Ignore macOS file system named .DS_Store
+.DS_Store
+
+#Ignore A folder named node_modules/
+node_modules/
