@@ -11,4 +11,4 @@
 node_modules/
 
 #Force Git to track empty assets/ folder
-!assets/
+!assets/ 
