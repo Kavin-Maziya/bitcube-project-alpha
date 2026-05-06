@@ -3,7 +3,6 @@
 # Version: 1.2.0
 
 
-
 def add(a, b):
  """Add two numbers"""
  return a + b
