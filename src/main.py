@@ -18,6 +18,9 @@ pass
 def divide(a, b):
  """Divide a by b"""
 # TODO: Implement this function
+ if b == 0:
+    raise ValueError("Cannot divide by zero!")
+    return a / b
 pass
 
 if __name__ == "__main__":
