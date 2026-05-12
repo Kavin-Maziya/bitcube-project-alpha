@@ -1,4 +1,14 @@
 # Bitcube Project Alpha
+Assignment 2.1: User Story Writing workshop
+
+When I add all the story points it equals 48 story points
+Then my proposed team velocity would be 12 points per sprint
+
+Therefore the project will take 4 sprints to complete
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+
 
 This is assignment 1.3 CI Workflow automation 
 
