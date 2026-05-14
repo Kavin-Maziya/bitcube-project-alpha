@@ -3,8 +3,8 @@
 Partially met
 
 ## Completed Work
-| Story # | Acceptance Criteria Met |
-|---------|-------|--------------|
+| Story #             | Acceptance Criteria Met |
+|-----------------------------------|-----------------|
 | User Story #1: Basic Room Booking | Met |
 | User Story #3: Room Capacity Filtering | Met |
 
