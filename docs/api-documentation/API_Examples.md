@@ -11,13 +11,14 @@ POST /auth/login
 Content-Type: application/json  
 
 {
-  "email": "admin@test.com",
-  "password": "password123"
+  email: "admin@test.com",
+  password: "password123"
 }
 Response (200 Login Successful)
+
 {
-  "token": "jwt-token-example",
-  "role": "Employee"
+  token: "jwt-token-example",
+  role: "Employee"
 }
 Usage
 Authorization: Bearer jwt-token-example
@@ -30,16 +31,16 @@ POST /rooms
 Authorization: Bearer jwt-token-example
 Content-Type: application/json
 {
-  "name": "Conference Room A",
-  "capacity": 10,
-  "equipment": ["Projector", "Whiteboard", "Video Conferencing"]
+  name: "Conference Room A",
+  capacity: 10,
+  equipment: ["Projector", "Whiteboard", "Video Conferencing"]
 }
 Response (201 Room Created)
 {
-  "id": 1,
-  "name": "Conference Room A",
-  "capacity": 10,
-  "equipment": ["Projector", "Whiteboard", "Video Conferencing"]
+  id: 1,
+  name: "Conference Room A",
+  capacity: 10,
+  equipment: ["Projector", "Whiteboard", "Video Conferencing"]
 }
 
 ## Get All Rooms
@@ -50,27 +51,27 @@ GET /rooms
 Response (200 Room found)
 [
   {
-    "id": 1,
-    "name": "Conference Room A",
-    "capacity": 10,
-    "equipment": ["Projector", "Whiteboard", "Video Conferencing"]
+    id: 1,
+    name: "Conference Room A",
+    capacity: 10,
+    equipment: ["Projector", "Whiteboard", "Video Conferencing"]
   }
 ]
 # 3. Availability
 ## Search Available Rooms
 ### Request
 
-GET /availability?date=2026-05-25&startTime=09:00&endTime=10:00&minCapacity=10&equipment=Projector
+#### GET 
+/availability?date=2026-05-25&startTime=09:00&endTime=10:00&minCapacity=10&equipment=Projector
 
 Response (200 Room found)
-[
-  {
-    "id": 1,
-    "name": "Conference Room A",
-    "capacity": 10,
-    "equipment": ["Projector" ]
-  }
-]
+{
+    id: 1,
+    name: "Conference Room A",
+    capacity: 10,
+    equipment: ["Projector" ]
+}
+
 No Results
 Response (200 OK)
 [ Nothing ]
@@ -79,47 +80,49 @@ Response (200 OK)
 ## Create Booking
 ### Request
 
-POST 
+#### POST 
 /bookings
 Authorization: Bearer jwt-token-example
 Content-Type: application/json
-
 {
-  "roomId": 1,
-  "date": "2026-05-25",
-  "startTime": "09:00",
-  "endTime": "10:00",
-  "teamSize": 8,
-  "equipmentRequirements": ["Projector", "Whiteboard"]
+  roomId: 1,
+  date: "2026-05-25",
+  startTime: "09:00",
+  endTime: "10:00",
+  teamSize: 8,
+  equipmentRequirements: ["Projector", "Whiteboard"]
 }
+
 Response (201 Booking Created)
 {
-  "bookingId": 1001,
-  "roomId": 1,
-  "date": "2026-05-25",
-  "startTime": "09:00",
-  "endTime": "10:00",
-  "teamSize": 8,
-  "equipmentRequirements": ["Projector", "Whiteboard"],
-  "status": "Confirmed"
+  bookingId: 1001,
+  roomId: 1,
+  date: "2026-05-25",
+  startTime: "09:00",
+  endTime: "10:00",
+  teamSize: 8,
+  equipmentRequirements: ["Projector", "Whiteboard"],
+  status: "Confirmed"
 }
+
 Conflict Example (409 Conflict)
 {
-  "status": 409,
-  "error": "Conflict",
-  "message": "Room already booked for selected time"
+  status: 409,
+  error: "Conflict",
+  message: "Room already booked for selected time"
 }
+
 Validation Error (422 Unprocessable Entity)
 {
-  "status": 422,
-  "error": "Unprocessable Entity",
-  "message": "Team size exceeds room capacity"
+  status: 422,
+  error: "Unprocessable Entity",
+  message: "Team size exceeds room capacity"
 }
 
 ## 5. Cancel Booking
 ### Request
 
-DELETE 
+#### DELETE 
 /bookings/1001?reason=Meeting cancelled
 Authorization: Bearer jwt-token-example
 
