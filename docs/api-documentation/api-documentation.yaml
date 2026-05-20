@@ -1,0 +1,346 @@
+openapi: 3.0.3
+
+info:
+  title: Conference Rooms Booking System
+  description: API contract for managing conference rooms, room bookings, and checking availability.
+  version: 1.0.0
+
+  contact:
+    name: Kavin Maziya
+    email: kavinmaziya256@gmail.com
+
+servers:
+  - url: https://localhost:3000
+    description: Development Server
+
+  - url: https://api.booking.com/v1
+    description: Production Server
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Authentication
+  - name: Rooms
+  - name: Bookings
+  - name: Availability
+
+paths:
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: User login
+      operationId: loginUser
+
+      security: []
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: {type: string, example: admin@test.com}
+                password: {type: string , example: password123}
+
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  token: {type: string}
+                  role: {type: string}
+
+        "401": {$ref: "#/components/responses/Unauthorized"}
+
+  /rooms:
+    get:
+      tags: [Rooms]
+      summary: Get all rooms
+      operationId: getRooms
+
+      responses:
+        "200":
+          description: Rooms retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: "#/components/schemas/Room"}
+
+        "500": {$ref: "#/components/responses/ServerError"}
+
+    post:
+      tags: [Rooms]
+      summary: Create room
+      operationId: createRoom
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/RoomInput"}
+
+      responses:
+        "201":
+          description: Room created successfully
+          headers:
+            Location:
+              schema: {type: string}
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/Room"}
+
+        "400": {$ref: "#/components/responses/BadRequest"}
+
+        "409": {$ref: "#/components/responses/Conflict"}
+
+  /rooms/{id}:
+    get:
+      tags: [Rooms]
+      summary: Get room by ID
+      operationId: getRoomById
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: integer}
+
+      responses:
+        "200":
+          description: Room found
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/Room"}
+
+        "404": {$ref: "#/components/responses/NotFound"}
+
+    put:
+      tags: [Rooms]
+      summary: Update room
+      operationId: updateRoom
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: integer}
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/RoomInput"}
+
+      responses:
+        "200":
+          description: Room updated successfully
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/Room"}
+
+        "404": {$ref: "#/components/responses/NotFound"}
+
+    delete:
+      tags: [Rooms]
+      summary: Delete room
+      operationId: deleteRoom
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: {type: integer}
+
+      responses:
+        "201":
+          description: Room deleted successfully
+
+        "404": {$ref: "#/components/responses/NotFound"}
+
+  /availability:
+    get:
+      tags: [Availability]
+      summary: Search available rooms
+      operationId: searchAvailableRooms
+
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema: {type: string, format: date}
+
+        - name: startTime
+          in: query
+          required: true
+          schema: {type: string}
+
+        - name: endTime
+          in: query
+          required: true
+          schema: {type: string}
+
+        - name: minCapacity
+          in: query
+          schema: {type: integer}
+
+        - name: equipment
+          in: query
+          schema: {type: string}
+
+      responses:
+        "200":
+          description: Available rooms search successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: "#/components/schemas/Room"}
+
+        "400": {$ref: "#/components/responses/BadRequest"}
+
+  /bookings:
+    post:
+      tags: [Bookings]
+      summary: Create booking
+      operationId: createBooking
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/BookingInput"}
+
+      responses:
+        "201":
+          description: Booking created
+          headers:
+            Location:
+              schema: {type: string}
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/Booking"}
+
+        "409": {$ref: "#/components/responses/Conflict"}
+
+        "422": {$ref: "#/components/responses/UnprocessableEntity"}
+
+  /bookings/{id}:
+    put:
+      tags: [Bookings]
+      summary: Update booking
+      operationId: updateBooking
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/BookingInput"}
+
+      responses:
+        "200":
+          description: Booking updated
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/Booking"}
+
+        "404": {$ref: "#/components/responses/NotFound"}
+
+    delete:
+      tags: [Bookings]
+      summary: Cancel booking
+      operationId: cancelBooking
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+        - name: reason
+          in: query
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "201": {description: Booking cancelled}
+
+        "404": {$ref: "#/components/responses/NotFound"}
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Room:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        capacity: { type: integer }
+        equipment:
+          type: array
+          items: { type: string }
+
+    RoomInput:
+      type: object
+      required: [name, capacity]
+      properties:
+        name: { type: string }
+        capacity: { type: integer }
+        equipment:
+          type: array
+          items: { type: string }
+
+    Booking:
+      type: object
+      properties:
+        bookingId: { type: integer }
+        roomId: { type: integer }
+        date: { type: string, format: date }
+        startTime: { type: string }
+        endTime: { type: string }
+        teamSize: { type: integer }
+        equipmentRequirements:
+          type: array
+          items: { type: string }
+
+    BookingInput:
+      type: object
+      required: [roomId, date, startTime, endTime, teamSize]
+      properties:
+        roomId: { type: integer }
+        date: { type: string, format: date }
+        startTime: { type: string }
+        endTime: { type: string }
+        teamSize: { type: integer }
+        equipmentRequirements:
+          type: array
+          items: { type: string }
+
+  responses:
+    BadRequest: {description: Bad request}
+    Unauthorized: {description: Unauthorized}
+    Forbidden: {description: Forbidden}
+    NotFound: {description: Not found}
+    Conflict: {description: Conflict detected}
+    UnprocessableEntity: {description: Validation error}
+    ServerError: {description: Server error}
