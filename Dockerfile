@@ -7,7 +7,7 @@ LABEL version="1.0.0"
 ENV APP_ENV=development
 ENV API_VERSION=v1
 
-COPY index.html /usr/share/nginx/html/index.html
+COPY lib/src/index.html /usr/share/nginx/html/index.html
 
 EXPOSE 80
 

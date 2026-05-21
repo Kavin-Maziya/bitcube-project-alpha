@@ -35,6 +35,7 @@ The system is currently represented through:
 Implementation details will be introduced later modules.
 
 # Quick Start
+
 Follow these instructions for a quick setup and how to run the Conference Booking System html Welcome file
 
 ## Prerequisites
@@ -58,17 +59,11 @@ Verify if you have the following tools before starting:
 
 ## Step 3: Run docker container
 - Copy and paste this to the terminal to Run the container using port mapping and environment variables:
-```bash
-docker run -d -p 3000:80 \
--e APP_ENV=development \
--e API_VERSION=v1 \
---name booking-system-container \
-conference-room-booking-system
-```
+docker run -d -p 8080:80 -e APP_ENV=development -e API_VERSION=v1 --name booking-system-container conference-room-booking-system
 
 ## Step 4: Run the app
-- Then run >>> docker run -d -p 3000:80 conference-room-booking-system to run the application
-- Open your browser and paste >>> http://localhost:3000 to the search address 
+- Then run this command to run the app >>> docker run -d -p 8080:80 conference-room-booking-system
+- Open your browser and paste >>> http://localhost:8080 to the search address 
 - The application should run successfully
 
 ## Step 5: Verify Running commands (optional)
