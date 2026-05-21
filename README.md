@@ -34,6 +34,52 @@ The system is currently represented through:
 
 Implementation details will be introduced later modules.
 
+# Quick Start
+Follow these instructions for a quick setup and how to run the Conference Booking System html Welcome file
+
+## Prerequisites
+Verify if you have the following tools before starting:
+- Visual Studio Code
+- Docker Desktop
+- Git
+- Web browser (Chrome, Edge, Firefox)
+
+## Step 1: Clone the repository
+- Create a new local folder
+- Open your terminal 
+- Type in >>> git clone https://github.com/Kavin-Maziya/bitcube-project-alpha.git
+- This process should clone the repository successfully
+
+## Step 2: Create a docker image
+- After cloning the repository
+- Navigate into the project folder using >>> cd bitcube-project-alpha
+- Run docker command >>> docker build -t conference-room-booking-system . 
+- This should build a docker image for the project
+
+## Step 3: Run docker container
+- Copy and paste this to the terminal to Run the container using port mapping and environment variables:
+```bash
+docker run -d -p 3000:80 \
+-e APP_ENV=development \
+-e API_VERSION=v1 \
+--name booking-system-container \
+conference-room-booking-system
+```
+
+## Step 4: Run the app
+- Then run >>> docker run -d -p 3000:80 conference-room-booking-system to run the application
+- Open your browser and paste >>> http://localhost:3000 to the search address 
+- The application should run successfully
+
+## Step 5: Verify Running commands (optional)
+
+- Run: docker ps you should be able to see booking-system-container running successfully
+
+## Step 6: Stop the Container
+
+- Run this command to stop the running container: docker stop booking-system-container
+
+
 # Project Documentation
 
 ## Sprint Documentation
@@ -70,6 +116,8 @@ Implementation details will be introduced later modules.
 
 /lib           -> Application source code (future implementation)
 /src           -> Subfolder for source code
+.../index.html -> Contains html code for the system welcoming page
+.../Dockerfile -> contaions docker information to run the system
 /.github       -> GitHub workflows and CI automation
 .gitignore     -> Contains commands to track files
 README.md      -> Main onboarding and project overview
